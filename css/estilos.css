@@ -1,0 +1,29 @@
+.nav{
+    background-color: #e6e6e6;
+    font-family: 'Manrope', sans-serif;
+    color: black;
+} 
+.body{
+    background-color: #0f0f10 ;
+    color: #e7e7e4;
+    font-family: 'Manrope', sans-serif;
+}
+.body h2{
+    font-weight: 600;
+}
+svg{
+    width: 40px;
+    height: 40px;
+}
+.fondoimg{
+    background-image: url("https://publish-p47754-e237306.adobeaemcloud.com/content/dam/common/statics/public-content/internet/web/rm-spa-web/images/player-profile/bg.app.svg?$Mobile$");
+}
+.card{
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+    text-align: justify;
+
+}
+.card:hover{
+    transform: scale(1.05);
+    transform: translateY(-10px);
+}
