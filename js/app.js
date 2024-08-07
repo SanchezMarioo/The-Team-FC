@@ -361,14 +361,16 @@ const jugadoresResumen = [
         nombre: "Endrick",
         descripcion: "Joven delantero brasileño con gran velocidad y capacidad goleadora.",
         posicion: "Delantero",
-        UrlJugador: "https://publish-p47754-e237306.adobeaemcloud.com/adobe/dynamicmedia/deliver/dm-aid--5ac9acb7-1dca-448e-a2c2-9c9f8eec0c6b/_80x501_ENDRICK_MONTAJE_1.app.png?preferwebp=true&width=288&height=384"
+        UrlJugador: "https://publish-p47754-e237306.adobeaemcloud.com/adobe/dynamicmedia/deliver/dm-aid--5ac9acb7-1dca-448e-a2c2-9c9f8eec0c6b/_80x501_ENDRICK_MONTAJE_1.app.png?preferwebp=true&width=288&height=384",
+        jugadorNuevo : true
     },
     {
         id: 16,
         nombre: "Kylian Mbappé",
         descripcion: "Delantero francés con velocidad explosiva y habilidades goleadoras.",
         posicion: "Delantero",
-        UrlJugador: "https://publish-p47754-e237306.adobeaemcloud.com/adobe/dynamicmedia/deliver/dm-aid--81e3f946-179c-40aa-aea1-061824f84636/_80x501_MBAPPE_1__2_.app.png?preferwebp=true&width=288&height=384"
+        UrlJugador: "https://publish-p47754-e237306.adobeaemcloud.com/adobe/dynamicmedia/deliver/dm-aid--81e3f946-179c-40aa-aea1-061824f84636/_80x501_MBAPPE_1__2_.app.png?preferwebp=true&width=288&height=384",
+        jugadorNuevo : true
     }
 ];
 const realMadridNews = [
@@ -415,35 +417,40 @@ function cargarJugadores() {
             jugadoresPorCategoria[jugador.posicion] = [];
         }
         jugadoresPorCategoria[jugador.posicion].push(jugador);
-    }
-
-    let jugadoresHTML = '';
-    
-    // Generar HTML para cada categoría (posición)
-    for (const categoria in jugadoresPorCategoria) {
-        jugadoresHTML += `<h2 class="pb-5 pt-5" id="${categoria}">${categoria}</h2><div class=" d-flex justify-content-start flex-row gap-5 flex-wrap categoria">`;
-        const jugadores = jugadoresPorCategoria[categoria];
-        for (let i = 0; i < jugadores.length; i++) {
-            const jugador = jugadores[i];
-            jugadoresHTML += `
-                <div class="card" style="width: 20rem;">
-                    <img src="${jugador.UrlJugador}" class="card-img-top fondoimg" alt="${jugador.nombre}">
-                    <div class="card-body">
-                        <h5 class="card-title">${jugador.nombre}</h5>
-                        <p class="card-text">${jugador.descripcion}</p>
-                        <p class="card-text"><small class="text-muted">${jugador.posicion}</small></p>
-                        <button type="button" class="btn btn-dark" data-player-id=${jugador.id} data-bs-toggle="modal" data-bs-target="#exampleModal">Mas Información</button>
-                    </div>
-                </div>
-            `;
         }
-        jugadoresHTML += `</div>`;
+        let jugadoresHTML = '';
+        
+        // Generar HTML para cada categoría (posición)
+        for (const categoria in jugadoresPorCategoria) {
+            jugadoresHTML += `<h2 class="pb-5 pt-5" id="${categoria}">${categoria}</h2><div class=" d-flex justify-content-start flex-row gap-5 flex-wrap categoria">`;
+            const jugadores = jugadoresPorCategoria[categoria];
+            for (let i = 0; i < jugadores.length; i++) {
+                const jugador = jugadores[i];
+                if (jugador) { // Verificar que jugador no sea undefined
+                    jugadoresHTML += `
+                        <div class="card" style="width: 20rem;">
+                            <img src="${jugador.UrlJugador}" class="card-img-top fondoimg" alt="${jugador.nombre}">
+                            <div class="card-body">
+                                <h5 class="card-title">${jugador.nombre}</h5>
+                                <p class="card-text">${jugador.descripcion}</p>
+                                <p class="card-text"><small class="text-muted">${jugador.posicion}</small></p>
+                                <button type="button" class="btn btn-dark btn-sm m-1" data-player-id=${jugador.id} data-bs-toggle="modal" data-bs-target="#exampleModal">Mas Información</button>
+                                ${jugador.jugadorNuevo ? '<button type="button" class="btn btn-sm btn-primary" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-title="Jugador nuevo" data-bs-content="El jugador se incorporo nuevo a la plantilla">Jugador Nuevo</button>' : ''}
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+            jugadoresHTML += `</div>`;
+        }
+        
+        // data-bs-toggle="modal" data-bs-target="#exampleModal"
+        document.getElementById('jugadores').innerHTML = jugadoresHTML;
+        cargarBtn();
+        
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
     }
-
-    // data-bs-toggle="modal" data-bs-target="#exampleModal"
-    document.getElementById('jugadores').innerHTML = jugadoresHTML;
-    cargarBtn();
-}
 function cargarNoticias() {
     let noticiasHTML = '';
     noticiasHTML+=`<h2 class="pb-5 pt-5">Noticias</h2><div class="row row-cols-1 row-cols-md-2 g-4">`;
